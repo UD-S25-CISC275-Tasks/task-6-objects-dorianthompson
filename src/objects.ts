@@ -80,15 +80,23 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    return "";
-}
+    const { name, type, body, options } = question;
 
+    let formmatted_string = `# ${name}\n${body}`;
+
+    const optionsCopy = options.map((option: string): string => `- ${option}`);
+    if (type === "multiple_choice_question") {
+        formmatted_string += "\n" + optionsCopy.join("\n");
+    }
+
+    return formmatted_string;
+}
 /**
  * Return a new version of the given question, except the name should now be
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    return question;
+    return { ...question, name: newName };
 }
 
 /**
@@ -97,7 +105,8 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    return question;
+    const { published } = question;
+    return { ...question, published: !published };
 }
 
 /**
